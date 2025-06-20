@@ -20,7 +20,7 @@
         @endif
 
         <!-- Upload Form -->
-        <form method="POST" action="{{ route('documents.upload') }}" enctype="multipart/form-data">
+        <form method="POST" action="{{ route('documents.upload') }}" enctype="multipart/form-data" class="mb-4">
             @csrf
             <div class="mb-3 form-group">
                 <label for="document" class="form-label">Choose Document (pdf, doc):</label>
@@ -33,12 +33,10 @@
             <button type="submit" class="btn btn-primary">Upload to Cloudinary</button>
         </form>
 
-        <form method="GET" class="" action="{{ route('documents.search') }}">
-            <div class="form-group">
-                <input type="text" name="keyword" class="form-control" placeholder="Search by title or category"
-                    value="{{ request('keyword') }}">
-                <button class="btn btn-primary" type="submit">Search</button>
-            </div>
+        <form method="GET" action="{{ route('documents.search') }}" class="mb-4 d-flex">
+            <input type="text" name="keyword" class="form-control me-2" placeholder="Search by title or category"
+                value="{{ request('keyword') }}">
+            <button class="btn btn-primary" type="submit">Search</button>
         </form>
 
 
@@ -56,38 +54,41 @@
                 </thead>
                 <tbody>
                     @foreach ($documents as $doc)
+                        @php $ext = strtolower(pathinfo($doc->title, PATHINFO_EXTENSION)); @endphp
                         <tr>
                             <td>
-                                {!! isset($keyword) ? Str::of($doc->title)->replace($keyword, '<mark>' . $keyword . '</mark>') : $doc->title !!}
+                                {!! isset($keyword)
+                                    ? Str::of($doc->title)->replace($keyword, '<mark>' . e($keyword) . '</mark>')
+                                    : e($doc->title) !!}
                             </td>
                             <td>
-                                @php
-                                    $ext = strtolower(pathinfo($doc->title, PATHINFO_EXTENSION));
-                                @endphp
                                 @if (in_array($ext, ['jpg', 'jpeg', 'png', 'gif']))
-                                    <img src="{{ $doc->path }}" alt="Image" width="100">
+                                    <img src="{{ $doc->path }}" alt="Image" title="Image File" width="100">
                                 @elseif($ext === 'pdf')
-                                    <img src="https://cdn-icons-png.flaticon.com/512/337/337946.png" width="50"
-                                        alt="PDF">
+                                    <img src="https://cdn-icons-png.flaticon.com/512/337/337946.png" alt="PDF"
+                                        title="PDF File" width="50">
                                 @elseif(in_array($ext, ['doc', 'docx']))
-                                    <img src="https://cdn-icons-png.flaticon.com/512/337/337932.png" width="50"
-                                        alt="DOC">
+                                    <img src="https://cdn-icons-png.flaticon.com/512/337/337932.png" alt="DOC"
+                                        title="Word Document" width="50">
                                 @else
-                                    <img src="https://cdn-icons-png.flaticon.com/512/565/565547.png" width="50"
-                                        alt="File">
+                                    <img src="https://cdn-icons-png.flaticon.com/512/565/565547.png" alt="File"
+                                        title="File" width="50">
                                 @endif
                             </td>
-                            <td>{{ round($doc->size / 1024, 2) }} KB</td>
+                            <td>{{ number_format($doc->size / 1024, 2) }} KB</td>
                             <td>
                                 {!! isset($keyword)
-                                    ? Str::of($doc->category)->replace($keyword, '<mark>' . $keyword . '</mark>')
-                                    : $doc->category !!}
+                                    ? Str::of($doc->category)->replace($keyword, '<mark>' . e($keyword) . '</mark>')
+                                    : e($doc->category) !!}
                             </td>
-                            <td><a href="{{ $doc->path }}" target="_blank" class="btn btn-sm btn-info">View /
-                                    Download</a></td>
+                            <td>
+                                <a href="{{ $doc->path }}" target="_blank" class="btn btn-sm btn-info">View /
+                                    Download</a>
+                            </td>
                         </tr>
                     @endforeach
                 </tbody>
+
             </table>
         @else
             <p>No documents uploaded yet.</p>
