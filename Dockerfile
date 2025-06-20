@@ -1,4 +1,3 @@
-# Use official PHP FPM image
 FROM php:8.2-fpm
 
 WORKDIR /var/www
@@ -9,9 +8,9 @@ RUN apt-get update && apt-get install -y \
     libjpeg-dev \
     libfreetype6-dev \
     libzip-dev \
+    libcurl4-openssl-dev \   # أضف هذا السطر لحل مشكلة libcurl
     git \
     curl \
-    libcurl4-openssl-dev \    # << مهم جداً لحل مشكلتك الحالية
     libonig-dev \
     libxml2-dev \
     libsqlite3-dev \
@@ -28,8 +27,8 @@ RUN docker-php-ext-install \
     bcmath \
     gd \
     zip \
-    curl \
-    intl
+    intl \
+    curl   # تأكد أن curl آخر شيء هنا
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
