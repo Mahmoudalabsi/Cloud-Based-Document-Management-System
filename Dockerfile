@@ -18,11 +18,10 @@ RUN apt-get update && apt-get install -y \
     libsqlite3-dev \
     zip \
     unzip \
-    libicu-dev \  # أضف هذه المكتبة لتمكين intl
-    && rm -rf /var/lib/apt/lists/* # قم بتنظيف ذاكرة التخزين المؤقت لتقليل حجم الصورة
+    libicu-dev \
+    && rm -rf /var/lib/apt/lists/*
 
 # تثبيت امتدادات PHP
-# تأكد هنا من وجود pdo_sqlite وإزالة pdo_mysql إذا لم تعد بحاجته
 RUN docker-php-ext-install \
     pdo_sqlite \
     mbstring \
@@ -51,7 +50,10 @@ RUN composer install --no-dev --optimize-autoloader
 
 # كاش Laravel للـ config والـ routes
 RUN php artisan config:cache
-RUN php artisan artisan route:cache
+RUN php artisan route:cache
 
-# أمر البدء (يمكن أن يختلف حسب إعدادات Render الخاصة بك)
+# أمر البدء الافتراضي للحاوية
+# هذا الأمر مهم لتشغيل تطبيقك عند بدء تشغيل الحاوية
+CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8000"]
+# أو إذا كنت تستخدم Nginx/Apache مع PHP-FPM:
 # CMD ["php-fpm"]
