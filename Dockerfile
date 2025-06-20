@@ -8,7 +8,7 @@ RUN apt-get update && apt-get install -y \
     libjpeg-dev \
     libfreetype6-dev \
     libzip-dev \
-    libcurl4-openssl-dev \   # أضف هذا السطر لحل مشكلة libcurl
+    libcurl4-openssl-dev \
     git \
     curl \
     libonig-dev \
@@ -28,7 +28,7 @@ RUN docker-php-ext-install \
     gd \
     zip \
     intl \
-    curl   # تأكد أن curl آخر شيء هنا
+    curl
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
