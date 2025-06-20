@@ -30,8 +30,12 @@ class DocumentController extends Controller
 
         $documents = $query->get();
 
-        return view('welcome', compact('documents'));
+        $count = Document::count();
+        $size = Document::sum('size');
+
+        return view('welcome', compact('documents', 'count', 'size'));
     }
+
 
     public function upload(Request $request)
     {
@@ -98,12 +102,7 @@ class DocumentController extends Controller
         return view('search', compact('documents', 'keyword'));
     }
 
-    public function sort()
-    {
-        $documents = Document::orderBy('title')->get();
 
-        return view('sort', compact('documents'));
-    }
 
     public function classify(Request $request)
     {
@@ -147,15 +146,25 @@ class DocumentController extends Controller
         $document->category = $category;
         $document->save();
 
-        return redirect()->route('documents.show', $document->id)
+        $documents = Document::all(); // لجلب كل المستندات للجدول
+        return view('welcome', compact('documents', 'document'))
             ->with('success', 'Document classified successfully!');
+    }
+
+
+    public function sort()
+    {
+        $documents = Document::orderBy('title')->get();
+        $count = Document::count();
+        $size = Document::sum('size');
+        return view('welcome', compact('documents', 'count', 'size'));
     }
 
     public function stats()
     {
+        $documents = Document::all();
         $count = Document::count();
         $size = Document::sum('size');
-
-        return view('stats', compact('count', 'size'));
+        return view('welcome', compact('documents', 'count', 'size'));
     }
 }

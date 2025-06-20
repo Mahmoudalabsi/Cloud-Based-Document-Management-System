@@ -18,6 +18,22 @@
         @if (session('success'))
             <div class="alert alert-success">{{ session('success') }}</div>
         @endif
+        @if (isset($document))
+            <div class="alert alert-info">
+                <h4>Classified Document Details:</h4>
+                <p><strong>Title:</strong> {{ $document->title }}</p>
+                <p><strong>Category:</strong> {{ $document->category }}</p>
+                <p><strong>Size:</strong> {{ number_format($document->size / 1024, 2) }} KB</p>
+                <p><a href="{{ $document->path }}" target="_blank" class="btn btn-sm btn-primary">View / Download</a></p>
+            </div>
+        @endif
+        @if (isset($count) && isset($size))
+            <div class="alert alert-secondary">
+                <strong>Stats:</strong> Total Documents: {{ $count }}, Total Size:
+                {{ number_format($size / 1024, 2) }} KB
+            </div>
+        @endif
+
 
         <!-- Upload Form -->
         <form method="POST" action="{{ route('documents.upload') }}" enctype="multipart/form-data" class="mb-4">
@@ -33,10 +49,18 @@
             <button type="submit" class="btn btn-primary">Upload to Cloudinary</button>
         </form>
 
+        <form method="GET" action="{{ route('documents.stats') }}" class="mb-4">
+            <button type="submit" class="btn btn-info">View Stats</button>
+        </form>
+
         <form method="GET" action="{{ route('documents.search') }}" class="mb-4 d-flex">
             <input type="text" name="keyword" class="form-control me-2" placeholder="Search by title or category"
                 value="{{ request('keyword') }}">
             <button class="btn btn-primary" type="submit">Search</button>
+        </form>
+
+        <form method="GET" action="{{ route('documents.sort') }}" class="mb-4">
+            <button type="submit" class="btn btn-secondary">Sort by Title</button>
         </form>
 
 
@@ -85,6 +109,14 @@
                                 <a href="{{ $doc->path }}" target="_blank" class="btn btn-sm btn-info">View /
                                     Download</a>
                             </td>
+                            <td>
+                                <form method="POST" action="{{ route('documents.classify') }}">
+                                    @csrf
+                                    <input type="hidden" name="id" value="{{ $doc->id }}">
+                                    <button type="submit" class="btn btn-warning btn-sm">Classify</button>
+                                </form>
+                            </td>
+
                         </tr>
                     @endforeach
                 </tbody>
@@ -94,7 +126,7 @@
             <p>No documents uploaded yet.</p>
         @endif
     </div>
-    <script src="{{ asset(path: 'bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ asset(path: 'bo otstrap/js/bootstrap.bundle.min.js') }}"></script>
 </body>
 
 </html>
