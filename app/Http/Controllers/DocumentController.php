@@ -14,7 +14,6 @@ class DocumentController extends Controller
 {
     public function __construct()
     {
-        // تأكيد مسار SQLite المطلق
         config(['database.connections.sqlite.database' => database_path('database.sqlite')]);
     }
 
