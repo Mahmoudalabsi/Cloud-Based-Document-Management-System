@@ -8,7 +8,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Document Management - Cloudinary Version</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ asset('bootstrap/css/bootstrap.min.css') }}">
 </head>
 
 <body>
@@ -94,6 +94,7 @@
             <p>No documents uploaded yet.</p>
         @endif
     </div>
+    <script src="{{ asset(path: 'bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 </body>
 
 </html>

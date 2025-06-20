@@ -95,14 +95,14 @@ class DocumentController extends Controller
             ->orWhere('content', 'like', "%$keyword%")
             ->get();
 
-        return view('documents.search', compact('documents', 'keyword'));
+        return view('search', compact('documents', 'keyword'));
     }
 
     public function sort()
     {
         $documents = Document::orderBy('title')->get();
 
-        return view('documents.sort', compact('documents'));
+        return view('sort', compact('documents'));
     }
 
     public function classify(Request $request)
