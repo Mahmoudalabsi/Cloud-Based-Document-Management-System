@@ -22,19 +22,19 @@
         <!-- Upload Form -->
         <form method="POST" action="{{ route('documents.upload') }}" enctype="multipart/form-data">
             @csrf
-            <div class="mb-3">
+            <div class="mb-3 form-group">
                 <label for="document" class="form-label">Choose Document (pdf, doc):</label>
                 <input type="file" name="document" class="form-control" required>
             </div>
-            <div class="mb-3">
+            <div class="mb-3 form-group">
                 <label for="category" class="form-label">Category:</label>
                 <input type="text" name="category" class="form-control">
             </div>
             <button type="submit" class="btn btn-primary">Upload to Cloudinary</button>
         </form>
 
-        <form method="GET" action="{{ route('documents.search') }}">
-            <div class="input-group">
+        <form method="GET" class="" action="{{ route('documents.search') }}">
+            <div class="form-group">
                 <input type="text" name="keyword" class="form-control" placeholder="Search by title or category"
                     value="{{ request('keyword') }}">
                 <button class="btn btn-primary" type="submit">Search</button>

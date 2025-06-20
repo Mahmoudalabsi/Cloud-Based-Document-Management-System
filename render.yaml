@@ -1,0 +1,23 @@
+services:
+  - type: web
+    name: laravel-docs-app
+    plan: free
+    env: docker
+    dockerfilePath: ./Dockerfile
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: APP_KEY
+        value: base64:KXko2f2Hxg650JRQtEy/lGWnt80zyuKd442NIml7uKw=
+      - key: APP_URL
+        value: https://laravel-docs-app.onrender.com
+      - key: DB_CONNECTION
+        value: sqlite
+      - key: DB_DATABASE
+        value: /var/www/html/database/database.sqlite
+      - key: CLOUDINARY_CLOUD_NAME
+        value: dpb8j0atk
+      - key: CLOUDINARY_API_KEY
+        value: 125428377694926
+      - key: CLOUDINARY_API_SECRET
+        value: JkF9YDoHKWQ0TSW6qMu5cK2UXEE

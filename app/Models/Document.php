@@ -14,6 +14,6 @@ class Document extends Model
         'path',
         'size',
         'category',
-        'content'
+        'content' // **أضف هذا لحماية التعيين الجماعي**
     ];
 }
